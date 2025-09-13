@@ -6,7 +6,7 @@ load_dotenv()
 
 # The endpoint should look like this: https://api.sheety.co/YOUR_USER_ID/YOUR_PROJECT_NAME/YOUR_SHEET_NAME
 SHEETY_PRICES_ENDPOINT = "https://api.sheety.co/b18649a7a31a35849e7fc91350c4f2fd/flightDeals/prices"
-SHEETY_CUSTOMER_ENDPOINT = "https://api.sheety.co/b18649a7a31a35849e7fc91350c4f2fd/flightDeals/prices"
+SHEETY_CUSTOMER_ENDPOINT = "https://api.sheety.co/b18649a7a31a35849e7fc91350c4f2fd/flightDeals/users"
 
 
 class DataManager:
@@ -36,7 +36,7 @@ class DataManager:
             data = response.json()
             print(f"Response status: {response.status_code}")
             print(f"Response data:  {data}")
-            self.customer_data = data
+            self.customer_data = data["users"]
             return self.customer_data
         except requests.exceptions.RequestException as e:
             print(f"Error fetching data: {e}")
