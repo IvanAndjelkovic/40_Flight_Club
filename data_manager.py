@@ -36,7 +36,7 @@ class DataManager:
             data = response.json()
             print(f"Response status: {response.status_code}")
             print(f"Response data:  {data}")
-            self.customer_data = data["users"]
+            self.customer_data = data['users']
             return self.customer_data
         except requests.exceptions.RequestException as e:
             print(f"Error fetching data: {e}")
