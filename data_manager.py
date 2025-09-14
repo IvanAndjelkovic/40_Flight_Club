@@ -36,8 +36,11 @@ class DataManager:
             data = response.json()
             print(f"Response status: {response.status_code}")
             print(f"Response data:  {data}")
+            email_list = []
             self.customer_data = data['users']
-            return self.customer_data
+            for user in self.customer_data:
+                email_list.append(user["whatIsYourEmail?"] )
+            return email_list
         except requests.exceptions.RequestException as e:
             print(f"Error fetching data: {e}")
             return []
