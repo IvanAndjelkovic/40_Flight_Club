@@ -1,5 +1,8 @@
 import os
 from twilio.rest import Client
+import smtplib
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from a .env file
 
 # Using a .env file to retrieve the phone numbers and tokens.
 
@@ -7,6 +10,8 @@ class NotificationManager:
 
     def __init__(self):
         self.client = Client(os.environ['TWILIO_SID'], os.environ["TWILIO_AUTH_TOKEN"])
+        self.my_email = os.environ["MY_EMAIL"]
+        self.password_mail = os.environ["MY_PASSWORD_MAIL"]
 
     def send_sms(self, message_body):
         """
@@ -47,3 +52,15 @@ class NotificationManager:
             to=f'whatsapp:{os.environ["TWILIO_VERIFIED_NUMBER"]}'
         )
         print(message.sid)
+
+    def send_email(self,to_email,message_body):
+            with smtplib.SMTP("smtp.gmail.com") as connection:
+                 
+                 connection.starttls()
+                 connection.login(self.my_email, self.password_mail)
+                 connection.sendmail(
+                                from_addr=self.my_email,
+                                to_addrs=to_email,
+                                msg=message_body
+        )
+
