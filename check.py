@@ -12,5 +12,5 @@ import os
 #     print(line["whatIsYourEmail?"])
 
 nm = NotificationManager()
-nm.send_email("ivan.andelkovic707@gmail.com","mile voli disko")
+nm.send_email("ivan.andelkovic707@gmail.com","mile voli disko", "test")
 

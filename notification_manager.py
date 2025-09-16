@@ -1,6 +1,8 @@
 import os
 from twilio.rest import Client
 import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from a .env file
 
@@ -53,14 +55,30 @@ class NotificationManager:
         )
         print(message.sid)
 
-    def send_email(self,to_email,message_body):
-            with smtplib.SMTP("smtp.gmail.com") as connection:
-                 
-                 connection.starttls()
-                 connection.login(self.my_email, self.password_mail)
-                 connection.sendmail(
-                                from_addr=self.my_email,
-                                to_addrs=to_email,
-                                msg=message_body
-        )
+    def send_email(self, to_email, message_body, subject="Notification"):
+        """
+        Sends an email using Yahoo SMTP server.
+        
+        Parameters:
+        to_email (str): Recipient's email address
+        message_body (str): Content of the email
+        subject (str): Subject of the email (optional)
+        """
+        try:
+            # Create MIME message
+            msg = MIMEMultipart()
+            msg['From'] = self.my_email
+            msg['To'] = to_email
+            msg['Subject'] = subject
+
+            # Add body
+            msg.attach(MIMEText(message_body, 'plain', 'utf-8'))
+
+            with smtplib.SMTP("smtp.mail.yahoo.com", 587) as connection:
+                connection.starttls()
+                connection.login(self.my_email, self.password_mail)
+                connection.send_message(msg)
+                print(f"Email sent successfully to {to_email}")
+        except Exception as e:
+            print(f"Failed to send email: {str(e)}")
 
